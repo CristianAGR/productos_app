@@ -9,9 +9,14 @@ class LoginFormProvider extends ChangeNotifier {
   String email = '';
   String password = '';
 
-  bool isValidForm() {
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  set isLoading ( bool value ) {
+    _isLoading = value;
+    notifyListeners();
+  }
 
-    print(formKey.currentState?.validate());
+  bool isValidForm() {
 
     // valida el estado del form que cuente con la key
     return formKey.currentState?.validate() ?? false;
