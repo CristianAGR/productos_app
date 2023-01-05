@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
                     // Solo lo que este dentro del login form tendrá acceso al LoginFormProvider
                     ChangeNotifierProvider(
                       create: ( _ ) => LoginFormProvider(),
-                      child: const _LofinForm(),
+                      child:  _LoginForm(),
                       )
 
                   ],
@@ -49,8 +49,7 @@ class LoginScreen extends StatelessWidget {
 }
 
 // Form del Login
-class _LofinForm extends StatelessWidget {
-  const _LofinForm({super.key});
+class _LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -110,16 +109,33 @@ class _LofinForm extends StatelessWidget {
               disabledColor: Colors.grey,
               elevation: 0,
               color: Colors.deepPurple,
-              child: Container(
-                padding: const EdgeInsets.symmetric( horizontal: 80, vertical: 15),
-                child: const Text('Ingresar', style: TextStyle( color: Colors.white),),
-              ),
-              onPressed:() {
-                // TODO: Login form
+
+              // si es isLoading no hace nada, pero si no llama a la función
+              onPressed: loginForm.isLoading ? null : () async {
+
+                FocusScope.of(context).unfocus();
+
+                // Login form
                 if ( !loginForm.isValidForm() ) return;
 
+                loginForm.isLoading = true;
+
+                await Future.delayed(const Duration(seconds: 2));
+                
+                // Validar si el login es correcto
+                loginForm.isLoading = false;
+                
+                // ignore: use_build_context_synchronously
                 Navigator.pushReplacementNamed(context, 'home');
               },
+              child: Container(
+                padding:  const EdgeInsets.symmetric( horizontal: 80, vertical: 15),
+                child: Text(
+                  loginForm.isLoading
+                  ? ' Espere '
+                  : 'Ingresar', 
+                  style: const TextStyle( color: Colors.white),),
+              ),
               )
           ],
         )
