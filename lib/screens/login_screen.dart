@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:productos_app/providers/login_form_provider.dart';
 import 'package:productos_app/ui/input_decorations.dart';
 import 'package:productos_app/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
    
@@ -24,7 +26,11 @@ class LoginScreen extends StatelessWidget {
                     Text('Login', style: Theme.of(context).textTheme.headline4,),
                     const SizedBox(height: 30,),
 
-                    const _LofinForm()
+                    // Solo lo que este dentro del login form tendrá acceso al LoginFormProvider
+                    ChangeNotifierProvider(
+                      create: ( _ ) => LoginFormProvider(),
+                      child: const _LofinForm(),
+                      )
 
                   ],
                 ),
@@ -42,15 +48,19 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-
+// Form del Login
 class _LofinForm extends StatelessWidget {
   const _LofinForm({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final  loginForm = Provider.of<LoginFormProvider>(context);
     return Container(
       child: Form(
         // mantener la referencia al KEY
+        key: loginForm.formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+
         child:  Column(
           children: [
 
@@ -62,6 +72,16 @@ class _LofinForm extends StatelessWidget {
                 labelText: 'Correo electrónico',
                 prefixIcon: Icons.alternate_email_rounded
               ),
+              onChanged: ( value ) => loginForm.email = value,
+              validator: ( value ) {
+
+                String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                RegExp regExp  =  RegExp(pattern);
+
+                return regExp.hasMatch(value ?? '')
+                ? null
+                : 'El valor ingresado no luce como un correo';
+              },
             ),
 
             const SizedBox( height: 30, ),
@@ -75,6 +95,12 @@ class _LofinForm extends StatelessWidget {
                 labelText: 'Contraseña',
                 prefixIcon: Icons.lock_outline
               ),
+              onChanged: (value) => loginForm.password = value,
+              validator: ( value ) {
+                return ( value != null && value.length >= 6)
+                ? null
+                : 'La contraseña debe de ser de 6 caracteres';
+              },
             ),
 
             const SizedBox( height: 30, ),
@@ -90,6 +116,9 @@ class _LofinForm extends StatelessWidget {
               ),
               onPressed:() {
                 // TODO: Login form
+                if ( !loginForm.isValidForm() ) return;
+
+                Navigator.pushReplacementNamed(context, 'home');
               },
               )
           ],
