@@ -87,7 +87,7 @@ class _PriceTag extends StatelessWidget {
       height: 70,
       alignment: Alignment.center,
       decoration: const BoxDecoration(
-        color: Colors.amber,
+        color: Colors.indigo,
         borderRadius: BorderRadius.only( topRight: Radius.circular(25), bottomLeft: Radius.circular(25))
       ),
       child: const FittedBox(
@@ -109,9 +109,9 @@ class _ProductDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only( right: 50),
+      padding: const EdgeInsets.only( right: 50),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         width: double.infinity,
         height: 70,
         decoration: _buildBoxDecorationn(),
@@ -133,7 +133,7 @@ class _ProductDetails extends StatelessWidget {
   }
 
   BoxDecoration _buildBoxDecorationn() => const BoxDecoration(
-    color: Colors.amber,
+    color: Colors.indigo,
     borderRadius: BorderRadius.only( bottomLeft:  Radius.circular(25), topRight: Radius.circular(25))
   );
 }
