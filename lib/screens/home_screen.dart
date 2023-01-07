@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:productos_app/screens/screens.dart';
+import 'package:productos_app/services/products_service.dart';
 import 'package:productos_app/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
    
@@ -7,16 +10,21 @@ class HomeScreen extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+
+    final productsService = Provider.of<ProductsService>(context);
+
+    if ( productsService.isLoading ) return const LoadingScreen();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Productos'),
       ),
       // Listview.builder crea los widgets de forma peresoza cuando están por aparecer en pantalla
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: productsService.products.length,
         itemBuilder: ( BuildContext context, int index) => GestureDetector(
           onTap: () => Navigator.pushNamed(context, 'product'),
-          child: const ProductCard()
+          child: ProductCard(product:productsService.products[index])
           )
         ),
         floatingActionButton: FloatingActionButton(onPressed: () {
