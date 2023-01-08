@@ -136,7 +136,7 @@ class _ProductDetails extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             ),
-            Text('Id del $name: $id', 
+            Text('Id: $id', 
             style: const TextStyle( fontSize:  15, color: Colors.white),
             )
           ],
