@@ -164,7 +164,10 @@ class _BackgroundImage extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         height: 400,
-        child: FadeInImage(
+        child: url == null || url == ''
+        ? const Image(image: AssetImage('assets/no-image.png'),
+          fit: BoxFit.cover,)
+        : FadeInImage(
           // TODO: fix productos cuando no hay imagen
           placeholder: const AssetImage('assets/jar-loading.gif'),
           image: NetworkImage(url!),
