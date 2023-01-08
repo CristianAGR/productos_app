@@ -12,6 +12,7 @@ class ProductsService extends ChangeNotifier {
   final String _baseUrl = 'flutter-varios-fee56-default-rtdb.firebaseio.com';
   final List<Product> products = [];
   bool isLoading = true;
+  bool isSaving = false;
   late Product selectedProduct;
 
   ProductsService() {
@@ -44,4 +45,31 @@ class ProductsService extends ChangeNotifier {
   }
 
   // TODO: hacer fetch de productos
+
+  Future saveOrCreateProduct ( Product product ) async {
+    isSaving = true;
+    notifyListeners();
+
+    if ( product.id == null ) {
+
+    } else {
+      // Actualizar
+     await updateProduct(product);
+    }
+
+    isSaving = false;
+    notifyListeners();
+  }
+
+  Future<String> updateProduct( Product product ) async {
+    final url = Uri.https(_baseUrl, 'products/${product.id}.json');
+    final resp = await http.put( url, body: product.toJson() );
+    final decodedData = resp.body;
+
+    // Actualizar el listado de productos
+    final index = products.indexWhere((element) => element.id == product.id!);
+    products[index] = product;
+    
+    return product.id!;
+  }
 }
