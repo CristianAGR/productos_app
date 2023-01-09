@@ -64,6 +64,8 @@ class _ProductScreenBody extends StatelessWidget {
                     onPressed: () async {
                       // Camara o galeria
                       final picker = ImagePicker();
+                      
+                      // regresa la imagen tomada  o seleccionada
                       final PickedFile? pickedFile = await picker.getImage(
                         source: ImageSource.camera,
                         imageQuality: 100
@@ -74,6 +76,7 @@ class _ProductScreenBody extends StatelessWidget {
                           return;
                         }
                         print('Tenemos imagen ${ pickedFile.path }');
+                        productService.updateSelectedProductImage(pickedFile.path);
                     }, 
                     icon: const Icon(Icons.camera_alt_outlined, size: 40, color: Colors.white,))
                 )

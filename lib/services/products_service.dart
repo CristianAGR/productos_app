@@ -2,6 +2,7 @@
 // el service se encarga de hacer la interaccion 
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:productos_app/models/product.dart';
@@ -11,9 +12,12 @@ class ProductsService extends ChangeNotifier {
 
   final String _baseUrl = 'flutter-varios-fee56-default-rtdb.firebaseio.com';
   final List<Product> products = [];
+
   bool isLoading = true;
   bool isSaving = false;
   late Product selectedProduct;
+
+  File? newPictureFile;
 
   ProductsService() {
     loadProducts();
@@ -43,8 +47,6 @@ class ProductsService extends ChangeNotifier {
 
     return products;
   }
-
-  // TODO: hacer fetch de productos
 
   Future saveOrCreateProduct ( Product product ) async {
     isSaving = true;
@@ -85,6 +87,14 @@ class ProductsService extends ChangeNotifier {
     products.add(product);
     
     return product.id!;
+  }
+
+  // actualiza la imagen tomada o seleccionada
+  void updateSelectedProductImage( String path) {
+    selectedProduct.picture = path;
+    newPictureFile = File.fromUri( Uri(path: path) );
+
+    notifyListeners();
   }
 
 }
