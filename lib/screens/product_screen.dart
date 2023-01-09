@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -68,6 +70,7 @@ class _ProductScreenBody extends StatelessWidget {
                       // regresa la imagen tomada  o seleccionada
                       final PickedFile? pickedFile = await picker.getImage(
                         source: ImageSource.camera,
+                        //source: ImageSource.gallery,
                         imageQuality: 100
                         );
 
@@ -75,7 +78,7 @@ class _ProductScreenBody extends StatelessWidget {
                           print('No selecciono nada');
                           return;
                         }
-                        print('Tenemos imagen ${ pickedFile.path }');
+                         //print('Tenemos imagen ${ pickedFile.path }');
                         productService.updateSelectedProductImage(pickedFile.path);
                     }, 
                     icon: const Icon(Icons.camera_alt_outlined, size: 40, color: Colors.white,))
@@ -92,13 +95,25 @@ class _ProductScreenBody extends StatelessWidget {
 
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
+        onPressed: productService.isSaving
+        ? null
+        : () async {
           // guardar producto
           if (!productForm.isValidForm() ) return;
+
+          final String? imageUrl = await productService.uploadImage();
+
+          print(imageUrl);
+          if ( imageUrl != null ) {
+            productForm.product.picture = imageUrl;
+          }
+
           await productService.saveOrCreateProduct(productForm.product);
 
         },
-        child: const Icon( Icons.save_outlined),
+        child: productService.isSaving
+        ? const CircularProgressIndicator( color: Colors.white,)
+        : const Icon( Icons.save_outlined),
       ),
     );
   }
