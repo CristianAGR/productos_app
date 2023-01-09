@@ -54,7 +54,7 @@ class _PurpleBox extends StatelessWidget {
       height: size.height * 0.4,
       decoration: _purpleBackground(),
       child: Stack(
-        children: const [
+        children:  [
           // positioned nos permite cambiar de position el widget
           Positioned(top: 90, left: 30,child: _Bubble(),),
           Positioned(top: -40, left: -30,child: _Bubble(),),
@@ -81,7 +81,6 @@ class _PurpleBox extends StatelessWidget {
 }
 
 class _Bubble extends StatelessWidget {
-  const _Bubble({super.key});
 
   @override
   Widget build(BuildContext context) {
