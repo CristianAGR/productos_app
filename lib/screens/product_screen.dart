@@ -55,7 +55,10 @@ class _ProductScreenBody extends StatelessWidget {
                   top: 60,
                   left: 20,
                   child: IconButton(
-                    onPressed: () => Navigator.of(context).pop(), 
+                    onPressed: () {
+                      productService.newPictureFile = null;
+                      Navigator.of(context).pop();
+                      }, 
                     icon: const Icon(Icons.arrow_back_ios_new, size: 40, color: Colors.white,))
                 ),
 
