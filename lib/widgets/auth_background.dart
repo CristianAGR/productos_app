@@ -13,7 +13,7 @@ class AuthBackground extends StatelessWidget {
       child: Stack(
         children:  [
 
-          const _PurpleBox(),
+           _PurpleBox(),
 
           const _HeaderIcon(),
 
@@ -43,7 +43,6 @@ class _HeaderIcon extends StatelessWidget {
 
 
 class _PurpleBox extends StatelessWidget {
-  const _PurpleBox({super.key});
 
   @override
   Widget build(BuildContext context) {
