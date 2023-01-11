@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         'login': (_) => const LoginScreen(),
         'register': (_) => const RegisterScreen(),
       },
+      scaffoldMessengerKey: NotifiCationsService.messengerKey,
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: Colors.grey[300],
         appBarTheme: const AppBarTheme(

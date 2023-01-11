@@ -137,7 +137,7 @@ class _LoginForm extends StatelessWidget {
                   // ignore: use_build_context_synchronously
                   Navigator.pushReplacementNamed(context, 'home');
                 } else {
-                  print( errorMessage );
+                  NotifiCationsService.showSnackbar('Usuario y o contraseña no validos, asegurese de insertar los datos correctamente');
                   loginForm.isLoading = false;
                 }
               },

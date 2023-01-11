@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:productos_app/providers/login_form_provider.dart';
-import 'package:productos_app/services/auth_service.dart';
+import 'package:productos_app/services/services.dart';
 import 'package:productos_app/ui/input_decorations.dart';
 import 'package:productos_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -135,7 +135,7 @@ class _LoginForm extends StatelessWidget {
                   // ignore: use_build_context_synchronously
                   Navigator.pushReplacementNamed(context, 'home');
                 } else {
-                  print( errorMessage );
+                  NotifiCationsService.showSnackbar('El email insertado ya ha sido registrado, ingrese uno diferente');
                   loginForm.isLoading = false;
                 }
               },
