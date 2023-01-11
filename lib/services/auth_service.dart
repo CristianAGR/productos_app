@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService extends ChangeNotifier {
 
   final String _baseUrl = 'identitytoolkit.googleapis.com';
   final String _firebaseToken = 'AIzaSyB3P-vA9FGW4j9wzpbqkt7hIjHESo-VeVA';
+
+  final storage = FlutterSecureStorage();
 
   
   // para mandar un post se necesita un mapa con la info del body
@@ -30,6 +33,7 @@ class AuthService extends ChangeNotifier {
     // si retornamos algo es un error, si no todo bien
     if ( decodedResp.containsKey('idToken') ) {
       // Guardar token en secure Storage
+      await storage.write(key: 'token', value: decodedResp['idToken']);
       return null;
     } else {
       return decodedResp['error']['message'];
@@ -57,10 +61,15 @@ class AuthService extends ChangeNotifier {
     // si retornamos algo es un error, si no todo bien
     if ( decodedResp.containsKey('idToken') ) {
       // Guardar token en secure Storage
+      await storage.write(key: 'token', value: decodedResp['idToken']);
       return null;
     } else {
       return decodedResp['error']['message'];
     }
+  }
+
+  Future logout() async {
+    await storage.delete(key: 'token');
   }
 
 
