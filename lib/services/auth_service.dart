@@ -9,7 +9,7 @@ class AuthService extends ChangeNotifier {
   final String _baseUrl = 'identitytoolkit.googleapis.com';
   final String _firebaseToken = 'AIzaSyB3P-vA9FGW4j9wzpbqkt7hIjHESo-VeVA';
 
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   
   // para mandar un post se necesita un mapa con la info del body
@@ -18,7 +18,8 @@ class AuthService extends ChangeNotifier {
     // info del post
     final Map<String, dynamic> authData = {
       'email': email,
-      'password': password
+      'password': password,
+      'returnSecureToken': true
     };
 
     // url
@@ -45,7 +46,8 @@ class AuthService extends ChangeNotifier {
     // info del post
     final Map<String, dynamic> authData = {
       'email': email,
-      'password': password
+      'password': password,
+      'returnSecureToken': true
     };
 
     // url
