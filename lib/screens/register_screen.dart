@@ -39,7 +39,7 @@ class RegisterScreen extends StatelessWidget {
             
               const SizedBox(height: 50,),
               TextButton(
-                onPressed: () => Navigator.pushReplacementNamed(context, 'register'), 
+                onPressed: () => Navigator.pushReplacementNamed(context, 'login'), 
                 style: ButtonStyle(
                   overlayColor: MaterialStateProperty.all( Colors.indigo.withOpacity(0.1)),
                   shape: MaterialStateProperty.all( const StadiumBorder())
@@ -125,21 +125,19 @@ class _LoginForm extends StatelessWidget {
 
                 // Login form
                 if ( !loginForm.isValidForm() ) return;
-
+                
                 loginForm.isLoading = true;
                 
                 // Validar si el login es correcto
                 final String? errorMessage = await authService.createUser(loginForm.email, loginForm.password);
 
                 if ( errorMessage == null ) {
+                  // ignore: use_build_context_synchronously
                   Navigator.pushReplacementNamed(context, 'home');
                 } else {
                   print( errorMessage );
+                  loginForm.isLoading = false;
                 }
-                loginForm.isLoading = false;
-                
-                // ignore: use_build_context_synchronously
-                Navigator.pushReplacementNamed(context, 'home');
               },
               child: Container(
                 padding:  const EdgeInsets.symmetric( horizontal: 80, vertical: 15),
